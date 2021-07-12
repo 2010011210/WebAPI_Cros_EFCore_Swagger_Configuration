@@ -16,7 +16,7 @@
         c.SwaggerEndpoint("/swagger/v1/swagger.json","v1testTittle");
       });
 # 3.EFCore
-  ##.import the useful package,then create a class that inherit DbContext
+  ## import the useful package,then create a class that inherit DbContext
     public class TestContext : DbContext
   {
     public TestContext()
@@ -36,7 +36,7 @@
     public DbSet<LocationInfo> locationInfos { get; set; }
     public DbSet<Car> cars { get; set; }
   }
-  ## .in the action
+  ## in the action
     using (var content = new TestContext())
         {
           var log = logging;
@@ -45,7 +45,7 @@
           content.cars.Add(new Car() { carName = name ,createTime = DateTime.Now });
           content.SaveChanges();
         }
-   ##.Coding first
+   ## Coding first
    Tools =>Nuget package manager =>Package manager console
    First ,input "Add-Migration FirstMigration", then input "Update-Database"
 # 4.Configuration
@@ -58,7 +58,7 @@ In the controller
     we can get value from the appsettings.json file
     var config = _configuration.GetSection("ConnectionString");
     var configObj = _configuration.GetSection("logging1").Get<Logging>();
- # 5.log4
+# 5.log4
  add a configuration file log4Config.xml
  <!--the location of log file-->
  			<file value="./LogTom/log2021" />
