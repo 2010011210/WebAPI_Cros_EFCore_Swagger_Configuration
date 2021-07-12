@@ -72,16 +72,23 @@ In the controller
 			<maxSizeRollBackups value="10" />
       <maximumFileSize value="1MB" />
   in the startup class
-    public static ILoggerRepository LogRepository { get; set; }
-    public Startup(IConfiguration configuration)
-    {
-      Configuration = configuration;
+    public static ILoggerRepository LogRepository { get; set; }  
+	
+    public Startup(IConfiguration configuration)  
+    {  
+	
+      Configuration = configuration;  
       LogRepository = LogManager.CreateRepository("NETCoreRepository");   //仓库的名字可以在配置文件中配置，也可以直接写死
       XmlConfigurator.Configure(LogRepository, new FileInfo("log4Config.xml"));  //读取配置文件
-    }
-  in the controller
+    }  
+	
+  in the controller  
+	
       //type 是指你当前使用log的对象的类，例如需要在HomeController中使用，参数就为typeof(HomeController)
-    private readonly ILog _log = LogManager.GetLogger(Startup.LogRepository.Name, typeof(WeatherForecastController));
-    _log.Info("Information data");
-    _log.Error(DateTime.Now.ToString() + " error test");
+    private readonly ILog _log = LogManager.GetLogger(Startup.LogRepository.Name, typeof(WeatherForecastController));  
+	
+    _log.Info("Information data");  
+	
+    _log.Error(DateTime.Now.ToString() + " error test");  
+	
    
