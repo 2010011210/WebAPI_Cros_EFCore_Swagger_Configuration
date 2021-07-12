@@ -1,9 +1,9 @@
 # WebAPI_Cros_EFCore_Swagger_Configuration
 # 1.cross domain
- ConfigureServices class
- services.AddCors(options => options.AddPolicy("AllowAll",policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()));  
- Configure class
- app.UseCors("AllowAll");
+ ConfigureServices class  
+ services.AddCors(options => options.AddPolicy("AllowAll",policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()));    
+ Configure class  
+ app.UseCors("AllowAll");  
 # 2.Swagger
   ConfigureService class
    //swagger UI
