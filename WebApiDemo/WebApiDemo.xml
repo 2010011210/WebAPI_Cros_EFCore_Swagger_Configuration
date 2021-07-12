@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WebApiDemo</name>
+    </assembly>
+    <members>
+        <member name="T:WebApiDemo.Model.LocationInfo">
+            <summary>
+            location information
+            </summary>
+        </member>
+        <member name="P:WebApiDemo.Model.LocationInfo.name">
+            <summary>
+            name
+            </summary>
+        </member>
+        <member name="P:WebApiDemo.Model.LocationInfo.address">
+            <summary>
+            address
+            </summary>
+        </member>
+        <member name="M:WebApiDemo.Model.TestContext.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions{WebApiDemo.Model.TestContext})">
+            <summary>
+            constructor for Coding first
+            </summary>
+            <param name="options"></param>
+        </member>
+    </members>
+</doc>
