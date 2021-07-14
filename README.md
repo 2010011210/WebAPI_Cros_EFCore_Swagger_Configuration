@@ -65,8 +65,9 @@ In the controller
             .ConfigureAppConfiguration((hostingContext, config) => {
               var en = hostingContext.HostingEnvironment;
               config.AddJsonFile(path:"privateConfig.json",  
-	         optional: true,
-	         reloadOnChange: true);
+	             optional: true,
+	             reloadOnChange: true  
+	      );
             })
             .ConfigureWebHostDefaults(webBuilder =>
             {
