@@ -58,6 +58,19 @@ In the controller
     we can get value from the appsettings.json file  
     var config = _configuration.GetSection("ConnectionString");  
     var configObj = _configuration.GetSection("logging1").Get<Logging>();  
+	
+    Add other config file  
+    public static IHostBuilder CreateHostBuilder(string[] args) =>
+        Host.CreateDefaultBuilder(args)
+            .ConfigureAppConfiguration((hostingContext, config) => {
+              var en = hostingContext.HostingEnvironment;
+              config.AddJsonFile(path:"privateConfig.json",optional: true,reloadOnChange: true);
+            })
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+              webBuilder.UseStartup<Startup>();
+            });
+	
 # 5.log4
  add a configuration file log4Config.xml
  <!--the location of log file-->
