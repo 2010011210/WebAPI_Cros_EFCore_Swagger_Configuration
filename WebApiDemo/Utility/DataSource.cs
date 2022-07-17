@@ -32,7 +32,8 @@ namespace WebApiDemo.Utility
         /// <returns></returns>
         public static int QueryFromRides(int i)
         {
-            Console.WriteLine($"QueryFromRides({i})");
+            System.Diagnostics.Debug.Write($"QueryFromRides({i})");
+            Console.WriteLine($"ConsoleWrite:QueryFromRides({i})");
             int res = 1;
             for (var k = 0; k < 5; k++)
             {

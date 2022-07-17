@@ -7,6 +7,55 @@
 //}   
 
  shopCache[key] = new KeyValuePair<DateTime, object>(DateTime.Now.AddSeconds(seconds), val);   
+# 委托
+  Linq to object where语句 使用的就是委托
+  List<User> users = new List<User>() { };  
+  users.Add(new User() { id=1,firstName ="Tom"});  
+  users.Add(new User() { id=2,firstName ="Jack"});  
+  users.Add(new User() { id=3,firstName ="Eric"});  
+  var list = users.TomWhere(s => s.id > 1);  
+ public static List<User> TomWhere(this List<User> lists,Func<User, bool> func)   
+  {    
+      List<User> users = new List<User>();  
+      foreach (var user in lists)   
+      {  
+          Thread.Sleep(2000);  
+          Console.WriteLine($"Before:userid:{user.id},username:{user.firstName}");  
+          if (func.Invoke(user))   
+          {  
+              users.Add(user);  
+              Console.WriteLine($"After:userid:{user.id},username:{user.firstName}");  
+          }  
+      }  
+  
+      return users;  
+  }  
+
+  其实linq还是用了迭代器，遍历list结果的时候，取一个比较一个，每隔2秒执行一次，不会像上面那样一次对比全部取出
+
+  public static IEnumerable<User> TomEnumeatorWhere(this List<User> lists, Func<User, bool> func)  
+  {  
+      List<User> users = new List<User>();  
+      foreach (var user in lists)  
+      {  
+          Thread.Sleep(2000);  
+          Console.WriteLine($"Before:userid:{user.id},username:{user.firstName}");  
+          if (func.Invoke(user))  
+          {  
+              yield return user;  
+              Console.WriteLine($"After:userid:{user.id},username:{user.firstName}");  
+          }  
+      }  
+  }  
+
+  var list = users.TomEnumeatorWhere(s => { 
+        return s.id > 1;  
+    });  
+
+    foreach (var user in list)  
+    {  
+        Console.WriteLine($"{user.id}:{user.firstName}");  
+    }  
 # 1.cross domain
  ConfigureServices class  2022-07-17
  services.AddCors(options => options.AddPolicy("AllowAll",policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()));    
