@@ -1,4 +1,12 @@
 # WebAPI_Cros_EFCore_Swagger_Configuration
+# 缓存cache
+ Dictionary线程不安全，多线程需要加锁，lock。ConcurrentDictionary是线程安全的，
+ //lock (LockObject)  //Diction多线程可能会又问题，要加锁。或者用ConcurrentDiction,这个是线程安全的。
+            //{
+            //    shopCache[key] = val;
+            //}
+
+ shopCache[key] = new KeyValuePair<DateTime, object>(DateTime.Now.AddSeconds(seconds), val);
 # 1.cross domain
  ConfigureServices class  2022-07-17
  services.AddCors(options => options.AddPolicy("AllowAll",policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()));    

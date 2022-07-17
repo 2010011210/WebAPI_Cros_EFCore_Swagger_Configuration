@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WebApiDemo</name>
+    </assembly>
+    <members>
+        <member name="M:WebApiDemo.Controllers.CacheTestController.GetAge(System.Int32)">
+            <summary>
+            获取年龄
+            </summary>
+            <param name="i"></param>
+            <returns></returns>
+        </member>
+        <member name="T:WebApiDemo.Model.LocationInfo">
+            <summary>
+            location information
+            </summary>
+        </member>
+        <member name="P:WebApiDemo.Model.LocationInfo.name">
+            <summary>
+            name
+            </summary>
+        </member>
+        <member name="P:WebApiDemo.Model.LocationInfo.address">
+            <summary>
+            address
+            </summary>
+        </member>
+        <member name="M:WebApiDemo.Model.TestContext.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions{WebApiDemo.Model.TestContext})">
+            <summary>
+            constructor for Coding first
+            </summary>
+            <param name="options"></param>
+        </member>
+        <member name="T:WebApiDemo.Utility.CacheHelper">
+            <summary>
+            缓存类
+            </summary>
+        </member>
+        <member name="F:WebApiDemo.Utility.CacheHelper.shopCache">
+            <summary>
+            缓存的字典
+            </summary>
+        </member>
+        <member name="M:WebApiDemo.Utility.CacheHelper.Exist(System.String)">
+            <summary>
+            判断缓存是否存在
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApiDemo.Utility.CacheHelper.Set(System.String,System.Object,System.Int32)">
+            <summary>
+            添加缓存
+            </summary>
+            <param name="key"></param>
+            <param name="val"></param>
+            <param name="seconds">过期时间</param>
+        </member>
+        <member name="M:WebApiDemo.Utility.CacheHelper.Get``1(System.String)">
+            <summary>
+            获取缓存
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApiDemo.Utility.CacheHelper.Get``1(System.String,System.Func{``0},System.Int32)">
+            <summary>
+            把获取数据的方法按照委托传进来
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key"></param>
+            <param name="fun"></param>
+            <param name="seconds">过期时间</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApiDemo.Utility.CacheHelper.Remove(System.String)">
+            <summary>
+            删除某个缓存
+            </summary>
+            <param name="key"></param>
+        </member>
+        <member name="M:WebApiDemo.Utility.CacheHelper.RemoveAll">
+            <summary>
+            清除缓存
+            </summary>
+        </member>
+        <member name="M:WebApiDemo.Utility.CacheHelper.RemoveCondition(System.Func{System.String,System.Boolean})">
+            <summary>
+            条件删除缓存
+            </summary>
+            <param name="func">委托，判断是否删除的方法</param>
+        </member>
+        <member name="T:WebApiDemo.Utility.DataSource">
+            <summary>
+            数据提供类
+            </summary>
+        </member>
+        <member name="M:WebApiDemo.Utility.DataSource.QueryDb(System.Int32)">
+            <summary>
+            模拟查询数据库
+            </summary>
+            <param name="i"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApiDemo.Utility.DataSource.QueryFromRides(System.Int32)">
+            <summary>
+            模拟查询数据库
+            </summary>
+            <param name="i"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
