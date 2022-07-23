@@ -1,4 +1,51 @@
 # WebAPI_Cros_EFCore_Swagger_Configuration
+# 特性 Attribute
+  声明特性
+  public class ColumnNameAttribute : Attribute  
+    {  
+        public ColumnNameAttribute()   
+        {  
+        }  
+
+        public ColumnNameAttribute(string des)  
+        {   
+            this.Description = des;  
+        }  
+  
+        public ColumnNameAttribute(string des, string name)  
+        {  
+            this.Description = des;  
+            this.Name = name;  
+        }  
+  
+  
+        public string Description { get; set; }  
+        public string Name { get; set; }  
+  
+        public string GetDescription()   
+        {  
+            return Description;  
+        }  
+  
+        public string GetName()  
+        {  
+            return Name;  
+        }  
+    }  
+    标记特性
+    //[ColumnName("汽车名称", "CarName")]  
+    //[ColumnName("汽车名称")]  
+    [ColumnName(Name = "CarName",Description = "汽车名称")]  
+    public string carName { get; set; }  
+
+    使用特性
+    var attributeList = type.GetCustomAttributes(typeof(CustomAttribute),true);  
+    foreach (CustomAttribute item in attributeList)   
+    {  
+        var name = item.Name;  
+        res = name;  
+    }  
+
 # 缓存cache
  Dictionary线程不安全，多线程需要加锁，lock。ConcurrentDictionary是线程安全的，  
  //lock (LockObject)  //Diction多线程可能会又问题，要加锁。或者用ConcurrentDiction,这个是线程安全的。  

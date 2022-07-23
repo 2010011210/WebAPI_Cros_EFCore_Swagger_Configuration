@@ -68,4 +68,3 @@ D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\WebApiD
 D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\WebApiDemo\obj\Debug\netcoreapp3.1\WebApiDemo.dll
 D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\WebApiDemo\obj\Debug\netcoreapp3.1\WebApiDemo.pdb
 D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\WebApiDemo\obj\Debug\netcoreapp3.1\WebApiDemo.genruntimeconfig.cache
-D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\WebApiDemo\obj\Debug\netcoreapp3.1\WebApiDemo.csproj.AssemblyReference.cache
