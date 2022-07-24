@@ -1,0 +1,13 @@
+D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\Service\bin\Debug\netcoreapp3.1\Service.deps.json
+D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\Service\bin\Debug\netcoreapp3.1\Service.dll
+D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\Service\bin\Debug\netcoreapp3.1\Service.pdb
+D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\Service\bin\Debug\netcoreapp3.1\IterfaceTest.dll
+D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\Service\bin\Debug\netcoreapp3.1\IterfaceTest.pdb
+D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\Service\obj\Debug\netcoreapp3.1\Service.csproj.AssemblyReference.cache
+D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\Service\obj\Debug\netcoreapp3.1\Service.GeneratedMSBuildEditorConfig.editorconfig
+D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\Service\obj\Debug\netcoreapp3.1\Service.AssemblyInfoInputs.cache
+D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\Service\obj\Debug\netcoreapp3.1\Service.AssemblyInfo.cs
+D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\Service\obj\Debug\netcoreapp3.1\Service.csproj.CoreCompileInputs.cache
+D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\Service\obj\Debug\netcoreapp3.1\Service.csproj.CopyComplete
+D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\Service\obj\Debug\netcoreapp3.1\Service.dll
+D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\Service\obj\Debug\netcoreapp3.1\Service.pdb

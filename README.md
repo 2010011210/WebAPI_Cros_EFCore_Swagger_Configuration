@@ -1,8 +1,40 @@
 # WebAPI_Cros_EFCore_Swagger_Configuration
+# IOC 和 AotuFac
+  注册服务  
+  services.AddTransient<ITestServiceA, ServiceA>();  
+
+  使用服务  
+  private readonly ITestServiceA _iTestServiceA;  
+
+  public IOCController(ITestServiceA testServiceA)   
+  {  
+      this._iTestServiceA = testServiceA;  
+  }  
+
+  public string Index()   
+  {  
+      this._iTestServiceA.Show();  
+      return "Ok";  
+  }  
+
+  使用AutoFac替换自带的IOC容器   
+  
+  public static IHostBuilder CreateHostBuilder(string[] args) =>  
+    Host.CreateDefaultBuilder(args)  
+        .UseServiceProviderFactory(new AutofacServiceProviderFactory())  //替换IOC容器  
+        .ConfigureContainer<ContainerBuilder>((context, conainerBuilder)=>   //注册  
+        {  
+            conainerBuilder.RegisterType<ServiceA>().As<ITestServiceA>();  
+        })  
+        .ConfigureWebHostDefaults(webBuilder =>  
+        {  
+          webBuilder.UseStartup<Startup>();  
+        });  
+
 # 特性 Attribute
-  声明特性
-  public class ColumnNameAttribute : Attribute  
-    {  
+  声明特性  
+  public class ColumnNameAttribute : Attribute    
+    {    
         public ColumnNameAttribute()   
         {  
         }  

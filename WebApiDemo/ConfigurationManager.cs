@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+//using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -21,15 +21,15 @@ namespace WebApiDemo
          .Build();
     }
 
-    public static T GetSection<T>(string key) where T : class, new()
-    {
-      return new ServiceCollection()
-          .AddOptions()
-          .Configure<T>(Configuration.GetSection(key))
-          .BuildServiceProvider()
-          .GetService<IOptions<T>>()
-          .Value;
-    }
+    //public static T GetSection<T>(string key) where T : class, new()
+    //{
+    //  return new Microsoft.Extensions.DependencyInjection.ServiceCollection()
+    //      .AddOptions()
+    //      .Configure<T>(Configuration.GetSection(key))
+    //      .BuildServiceProvider()
+    //      .GetService<IOptions<T>>()
+    //      .Value;
+    //}
 
     public static string GetSection(string key)
     {

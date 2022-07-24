@@ -1,7 +1,11 @@
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using IterfaceTest;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +22,11 @@ namespace WebApiDemo
 
     public static IHostBuilder CreateHostBuilder(string[] args) =>
         Host.CreateDefaultBuilder(args)
+            .UseServiceProviderFactory(new AutofacServiceProviderFactory())  //Ìæ»»IOCÈÝÆ÷
+            .ConfigureContainer<ContainerBuilder>((context, conainerBuilder)=> 
+            {
+                conainerBuilder.RegisterType<ServiceA>().As<ITestServiceA>();
+            })
             .ConfigureWebHostDefaults(webBuilder =>
             {
               webBuilder.UseStartup<Startup>();

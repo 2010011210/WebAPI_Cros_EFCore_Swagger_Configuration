@@ -39,15 +39,15 @@ namespace WebApiDemo.Controllers
                 foreach (PropertyInfo item in properties) 
                 {
                     res += item.GetName() + "||";
-                    if (item.IsDefined(typeof(ColumnNameAttribute),false)) 
-                    {
-                        var attributeList2 = item.GetCustomAttributes(typeof(ColumnNameAttribute), true);
-                        foreach (ColumnNameAttribute colum in attributeList2)
-                        {
-                            var columnName = colum.GetDescription();
-                            res += columnName + "/n";
-                        }
-                    }
+                    //if (item.IsDefined(typeof(ColumnNameAttribute),false)) 
+                    //{
+                    //    var attributeList2 = item.GetCustomAttributes(typeof(ColumnNameAttribute), true);
+                    //    foreach (ColumnNameAttribute colum in attributeList2)
+                    //    {
+                    //        var columnName = colum.GetDescription();
+                    //        res += columnName + "/n";
+                    //    }
+                    //}
                 }
 
             }
