@@ -27,6 +27,31 @@
           "lib/netstandard2.1/Autofac.Extensions.DependencyInjection.dll": {}
         }
       },
+      "Autofac.Extras.DynamicProxy/6.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Autofac": "6.2.0",
+          "Castle.Core": "4.4.0"
+        },
+        "compile": {
+          "lib/netstandard2.1/Autofac.Extras.DynamicProxy.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.1/Autofac.Extras.DynamicProxy.dll": {}
+        }
+      },
+      "Castle.Core/5.0.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Diagnostics.EventLog": "4.7.0"
+        },
+        "compile": {
+          "lib/netstandard2.1/Castle.Core.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.1/Castle.Core.dll": {}
+        }
+      },
       "Humanizer.Core/2.8.26": {
         "type": "package",
         "compile": {
@@ -731,6 +756,26 @@
         },
         "runtime": {
           "lib/netstandard1.3/System.Diagnostics.DiagnosticSource.dll": {}
+        }
+      },
+      "System.Diagnostics.EventLog/4.7.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "3.1.0",
+          "Microsoft.Win32.Registry": "4.7.0",
+          "System.Security.Principal.Windows": "4.7.0"
+        },
+        "compile": {
+          "ref/netstandard2.0/System.Diagnostics.EventLog.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/System.Diagnostics.EventLog.dll": {}
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/netcoreapp2.0/System.Diagnostics.EventLog.dll": {
+            "assetType": "runtime",
+            "rid": "win"
+          }
         }
       },
       "System.Diagnostics.Tools/4.3.0": {
@@ -1520,9 +1565,26 @@
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
       },
+      "CommonCore/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "Autofac.Extras.DynamicProxy": "6.0.1"
+        },
+        "compile": {
+          "bin/placeholder/CommonCore.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/CommonCore.dll": {}
+        }
+      },
       "IterfaceTest/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "Autofac.Extras.DynamicProxy": "6.0.1",
+          "CommonCore": "1.0.0"
+        },
         "compile": {
           "bin/placeholder/IterfaceTest.dll": {}
         },
@@ -1534,6 +1596,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
+          "CommonCore": "1.0.0",
           "IterfaceTest": "1.0.0"
         },
         "compile": {
@@ -1585,6 +1648,47 @@
         "lib/netstandard2.0/Autofac.Extensions.DependencyInjection.xml",
         "lib/netstandard2.1/Autofac.Extensions.DependencyInjection.dll",
         "lib/netstandard2.1/Autofac.Extensions.DependencyInjection.xml"
+      ]
+    },
+    "Autofac.Extras.DynamicProxy/6.0.1": {
+      "sha512": "+ulCOXUjbJ5dljBPZf3gRxQNPRGqg/h1cNTZ4SpXK3qiamTfRsW3gXs2w/IJ+CIDmHrFGYXLqzNd5etvzwB8kA==",
+      "type": "package",
+      "path": "autofac.extras.dynamicproxy/6.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "autofac.extras.dynamicproxy.6.0.1.nupkg.sha512",
+        "autofac.extras.dynamicproxy.nuspec",
+        "icon.png",
+        "lib/netstandard2.0/Autofac.Extras.DynamicProxy.dll",
+        "lib/netstandard2.0/Autofac.Extras.DynamicProxy.xml",
+        "lib/netstandard2.1/Autofac.Extras.DynamicProxy.dll",
+        "lib/netstandard2.1/Autofac.Extras.DynamicProxy.xml"
+      ]
+    },
+    "Castle.Core/5.0.0": {
+      "sha512": "edc8jjyXqzzy8jFdhs36FZdwmlDDTgqPb2Zy1Q5F/f2uAc88bu/VS/0Tpvgupmpl9zJOvOo5ZizVANb0ltN1NQ==",
+      "type": "package",
+      "path": "castle.core/5.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "ASL - Apache Software Foundation License.txt",
+        "CHANGELOG.md",
+        "LICENSE",
+        "castle-logo.png",
+        "castle.core.5.0.0.nupkg.sha512",
+        "castle.core.nuspec",
+        "lib/net462/Castle.Core.dll",
+        "lib/net462/Castle.Core.xml",
+        "lib/net6.0/Castle.Core.dll",
+        "lib/net6.0/Castle.Core.xml",
+        "lib/netstandard2.0/Castle.Core.dll",
+        "lib/netstandard2.0/Castle.Core.xml",
+        "lib/netstandard2.1/Castle.Core.dll",
+        "lib/netstandard2.1/Castle.Core.xml",
+        "readme.txt"
       ]
     },
     "Humanizer.Core/2.8.26": {
@@ -3091,6 +3195,33 @@
         "lib/portable-net45+win8+wpa81/System.Diagnostics.DiagnosticSource.xml",
         "system.diagnostics.diagnosticsource.5.0.1.nupkg.sha512",
         "system.diagnostics.diagnosticsource.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
+    "System.Diagnostics.EventLog/4.7.0": {
+      "sha512": "iDoKGQcRwX0qwY+eAEkaJGae0d/lHlxtslO+t8pJWAUxlvY3tqLtVOPnW2UU4cFjP0Y/L1QBqhkZfSyGqVMR2w==",
+      "type": "package",
+      "path": "system.diagnostics.eventlog/4.7.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net461/System.Diagnostics.EventLog.dll",
+        "lib/net461/System.Diagnostics.EventLog.xml",
+        "lib/netstandard2.0/System.Diagnostics.EventLog.dll",
+        "lib/netstandard2.0/System.Diagnostics.EventLog.xml",
+        "ref/net461/System.Diagnostics.EventLog.dll",
+        "ref/net461/System.Diagnostics.EventLog.xml",
+        "ref/net472/System.Diagnostics.EventLog.dll",
+        "ref/net472/System.Diagnostics.EventLog.xml",
+        "ref/netstandard2.0/System.Diagnostics.EventLog.dll",
+        "ref/netstandard2.0/System.Diagnostics.EventLog.xml",
+        "runtimes/win/lib/netcoreapp2.0/System.Diagnostics.EventLog.dll",
+        "runtimes/win/lib/netcoreapp2.0/System.Diagnostics.EventLog.xml",
+        "system.diagnostics.eventlog.4.7.0.nupkg.sha512",
+        "system.diagnostics.eventlog.nuspec",
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
@@ -5719,6 +5850,11 @@
         "system.xml.xmlserializer.nuspec"
       ]
     },
+    "CommonCore/1.0.0": {
+      "type": "project",
+      "path": "../CommonCore/CommonCore.csproj",
+      "msbuildProject": "../CommonCore/CommonCore.csproj"
+    },
     "IterfaceTest/1.0.0": {
       "type": "project",
       "path": "../IterfaceTest/IterfaceTest.csproj",
@@ -5734,6 +5870,8 @@
     ".NETCoreApp,Version=v3.1": [
       "Autofac >= 6.4.0",
       "Autofac.Extensions.DependencyInjection >= 8.0.0",
+      "Autofac.Extras.DynamicProxy >= 6.0.1",
+      "Castle.Core >= 5.0.0",
       "IterfaceTest >= 1.0.0",
       "Microsoft.EntityFrameworkCore >= 5.0.7",
       "Microsoft.EntityFrameworkCore.SqlServer >= 5.0.7",
@@ -5797,6 +5935,14 @@
           "Autofac.Extensions.DependencyInjection": {
             "target": "Package",
             "version": "[8.0.0, )"
+          },
+          "Autofac.Extras.DynamicProxy": {
+            "target": "Package",
+            "version": "[6.0.1, )"
+          },
+          "Castle.Core": {
+            "target": "Package",
+            "version": "[5.0.0, )"
           },
           "Microsoft.EntityFrameworkCore": {
             "target": "Package",

@@ -1,0 +1,10 @@
+D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\CommonCore\bin\Debug\netcoreapp3.1\CommonCore.deps.json
+D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\CommonCore\bin\Debug\netcoreapp3.1\CommonCore.dll
+D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\CommonCore\bin\Debug\netcoreapp3.1\CommonCore.pdb
+D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\CommonCore\obj\Debug\netcoreapp3.1\CommonCore.csproj.AssemblyReference.cache
+D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\CommonCore\obj\Debug\netcoreapp3.1\CommonCore.GeneratedMSBuildEditorConfig.editorconfig
+D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\CommonCore\obj\Debug\netcoreapp3.1\CommonCore.AssemblyInfoInputs.cache
+D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\CommonCore\obj\Debug\netcoreapp3.1\CommonCore.AssemblyInfo.cs
+D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\CommonCore\obj\Debug\netcoreapp3.1\CommonCore.csproj.CoreCompileInputs.cache
+D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\CommonCore\obj\Debug\netcoreapp3.1\CommonCore.dll
+D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\CommonCore\obj\Debug\netcoreapp3.1\CommonCore.pdb

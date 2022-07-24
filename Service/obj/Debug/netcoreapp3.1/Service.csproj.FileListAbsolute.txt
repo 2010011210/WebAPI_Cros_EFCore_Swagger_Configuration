@@ -11,3 +11,5 @@ D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\Service
 D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\Service\obj\Debug\netcoreapp3.1\Service.csproj.CopyComplete
 D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\Service\obj\Debug\netcoreapp3.1\Service.dll
 D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\Service\obj\Debug\netcoreapp3.1\Service.pdb
+D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\Service\bin\Debug\netcoreapp3.1\CommonCore.dll
+D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\Service\bin\Debug\netcoreapp3.1\CommonCore.pdb

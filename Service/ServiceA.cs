@@ -16,5 +16,12 @@ namespace Service
         {
             Console.WriteLine($"this is ServiceA.Show");
         }
+
+        public void Show(int i, string name)
+        {
+            Console.WriteLine($"this is ServiceA.Show i:{i}__name:{name}");
+        }
+
+
     }
 }

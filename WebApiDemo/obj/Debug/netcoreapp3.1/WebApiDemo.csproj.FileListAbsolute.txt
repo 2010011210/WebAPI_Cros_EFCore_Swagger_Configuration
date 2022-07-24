@@ -75,3 +75,7 @@ D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\WebApiD
 D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\WebApiDemo\obj\Debug\netcoreapp3.1\WebApiDemo.csproj.AssemblyReference.cache
 D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\WebApiDemo\bin\Debug\netcoreapp3.1\Autofac.dll
 D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\WebApiDemo\bin\Debug\netcoreapp3.1\Autofac.Extensions.DependencyInjection.dll
+D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\WebApiDemo\bin\Debug\netcoreapp3.1\Autofac.Extras.DynamicProxy.dll
+D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\WebApiDemo\bin\Debug\netcoreapp3.1\Castle.Core.dll
+D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\WebApiDemo\bin\Debug\netcoreapp3.1\CommonCore.dll
+D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\WebApiDemo\bin\Debug\netcoreapp3.1\CommonCore.pdb

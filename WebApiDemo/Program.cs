@@ -1,4 +1,5 @@
 using Autofac;
+using Autofac.Extras.DynamicProxy;
 using Autofac.Extensions.DependencyInjection;
 using IterfaceTest;
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CommonCore;
 
 namespace WebApiDemo
 {
@@ -23,9 +25,10 @@ namespace WebApiDemo
     public static IHostBuilder CreateHostBuilder(string[] args) =>
         Host.CreateDefaultBuilder(args)
             .UseServiceProviderFactory(new AutofacServiceProviderFactory())  //Ìæ»»IOCÈÝÆ÷
-            .ConfigureContainer<ContainerBuilder>((context, conainerBuilder)=> 
+            .ConfigureContainer<ContainerBuilder>((context, conainerBuilder)=>   //×¢²á
             {
-                conainerBuilder.RegisterType<ServiceA>().As<ITestServiceA>();
+                conainerBuilder.RegisterType<ServiceA>().As<ITestServiceA>().EnableInterfaceInterceptors();
+                conainerBuilder.RegisterType<CustomerMonitorInterceptor>();
             })
             .ConfigureWebHostDefaults(webBuilder =>
             {

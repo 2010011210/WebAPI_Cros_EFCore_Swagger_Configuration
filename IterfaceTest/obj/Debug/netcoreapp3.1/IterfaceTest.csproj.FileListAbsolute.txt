@@ -8,3 +8,6 @@ D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\Iterfac
 D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\IterfaceTest\obj\Debug\netcoreapp3.1\IterfaceTest.csproj.CoreCompileInputs.cache
 D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\IterfaceTest\obj\Debug\netcoreapp3.1\IterfaceTest.dll
 D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\IterfaceTest\obj\Debug\netcoreapp3.1\IterfaceTest.pdb
+D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\IterfaceTest\bin\Debug\netcoreapp3.1\CommonCore.dll
+D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\IterfaceTest\bin\Debug\netcoreapp3.1\CommonCore.pdb
+D:\WangCong\demoProject20220716\WebAPI_Cros_EFCore_Swagger_Configuration\IterfaceTest\obj\Debug\netcoreapp3.1\IterfaceTest.csproj.CopyComplete

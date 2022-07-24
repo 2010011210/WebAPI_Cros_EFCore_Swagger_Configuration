@@ -1,43 +1,45 @@
 # WebAPI_Cros_EFCore_Swagger_Configuration
-# IOC 和 AotuFac
+# IOC 和 AutoFac
   注册服务  
   services.AddTransient<ITestServiceA, ServiceA>();  
 
   使用服务  
-  private readonly ITestServiceA _iTestServiceA;  
 
-  public IOCController(ITestServiceA testServiceA)   
-  {  
-      this._iTestServiceA = testServiceA;  
-  }  
+    private readonly ITestServiceA _iTestServiceA;  
 
-  public string Index()   
-  {  
-      this._iTestServiceA.Show();  
-      return "Ok";  
-  }  
+    public IOCController(ITestServiceA testServiceA)   
+    {  
+        this._iTestServiceA = testServiceA;  
+    }  
+
+    public string Index()   
+    {  
+        this._iTestServiceA.Show();  
+        return "Ok";  
+    }  
 
   使用AutoFac替换自带的IOC容器   
   
-  public static IHostBuilder CreateHostBuilder(string[] args) =>  
-    Host.CreateDefaultBuilder(args)  
-        .UseServiceProviderFactory(new AutofacServiceProviderFactory())  //替换IOC容器  
-        .ConfigureContainer<ContainerBuilder>((context, conainerBuilder)=>   //注册  
-        {  
-            conainerBuilder.RegisterType<ServiceA>().As<ITestServiceA>();  
-        })  
-        .ConfigureWebHostDefaults(webBuilder =>  
-        {  
-          webBuilder.UseStartup<Startup>();  
-        });  
+    public static IHostBuilder CreateHostBuilder(string[] args) =>  
+      Host.CreateDefaultBuilder(args)  
+          .UseServiceProviderFactory(new AutofacServiceProviderFactory())  //替换IOC容器  
+          .ConfigureContainer<ContainerBuilder>((context, conainerBuilder)=>   //注册  
+          {  
+              conainerBuilder.RegisterType<ServiceA>().As<ITestServiceA>();  
+          })  
+          .ConfigureWebHostDefaults(webBuilder =>  
+          {  
+            webBuilder.UseStartup<Startup>();  
+          });  
 
 # 特性 Attribute
   声明特性  
-  public class ColumnNameAttribute : Attribute    
-    {    
-        public ColumnNameAttribute()   
-        {  
-        }  
+
+      public class ColumnNameAttribute : Attribute    
+        {    
+            public ColumnNameAttribute()   
+            {  
+            }  
 
         public ColumnNameAttribute(string des)  
         {   
@@ -71,12 +73,171 @@
     public string carName { get; set; }  
 
     使用特性
-    var attributeList = type.GetCustomAttributes(typeof(CustomAttribute),true);  
-    foreach (CustomAttribute item in attributeList)   
-    {  
-        var name = item.Name;  
-        res = name;  
-    }  
+
+      var attributeList = type.GetCustomAttributes(typeof(CustomAttribute),true);  
+      foreach (CustomAttribute item in attributeList)   
+      {  
+          var name = item.Name;  
+          res = name;  
+      }  
+
+# AOP
+ 
+需要安装Nuget   
+Autofac  
+Autofac.Extras.DynamicProxy  
+Autofac.Extensions.DependencyInjection;  
+  
+1.Castle动态代理  
+  1.1 生成拦截类   
+
+    public class CustomInterceptor : StandardInterceptor
+    {
+        protected override void PreProceed(IInvocation invocation)
+        {
+            Console.WriteLine($"当前调用方法：{invocation.Method.Name}");
+        }
+
+        protected override void PerformProceed(IInvocation invocation)
+        {
+            invocation.Proceed();
+        }
+
+        protected override void PostProceed(IInvocation invocation)
+        {
+            Console.WriteLine($"已经调用方法：{invocation.Method.Name}");
+        }
+    }
+
+  1.2  
+
+    ProxyGenerator generator = new ProxyGenerator();  
+    CustomInterceptor interceptor = new CustomInterceptor();
+    ITestServiceA serviceA = new ServiceA();
+
+    var iTestServiceA = generator.CreateInterfaceProxyWithTarget<ITestServiceA>(serviceA, interceptor);
+
+    iTestServiceA.Show();
+
+2.AutoFac基于Castle  
+2.1 生成拦截的方法  
+
+    public class CustomerMonitorInterceptor : IInterceptor  
+    {   
+      /// <summary>  
+      /// 拦截--invocation.Proceed() 等同于原方法的调用
+      /// </summary>
+      /// <param name="invocation"></param>  
+      public void Intercept(IInvocation invocation)  
+      {  
+          var method = invocation.Method;  
+          var argument = invocation.Arguments;  
+
+          Console.WriteLine($"method:{method}--argument:{argument}");  
+
+          invocation.Proceed();  
+      }
+    }
+
+
+2.2 注册IOC  
+ conainerBuilder.RegisterType<ServiceA>().As<ITestServiceA>().EnableInterfaceInterceptors();  
+
+ conainerBuilder.RegisterType<CustomerMonitorInterceptor>();  
+
+2.3 在接口上使用继承该接口 都会被拦截     
+
+    [Intercept(typeof(CustomerMonitorInterceptor))]  
+    public interface ITestServiceA
+    {
+        void Show();
+
+        void Show(int i, string name);
+
+    }
+
+ 3.Filter  
+
+  3.1 声明特性    
+
+    public class LogActionFilterAttribute : ActionFilterAttribute
+    {
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            string url = context.HttpContext.Request.Path.Value;
+            string argument = JsonConvert.SerializeObject(context.ActionArguments);
+
+            string controllerName = context.Controller.GetType().FullName;
+            string actionName = context.ActionDescriptor.DisplayName;
+
+            Console.WriteLine($"url--{url},---argument:{argument}");
+
+        }
+    }
+
+    特性可以标记在controller类上
+    //[LogActionFilterAttribute]
+    public class AOPController : ControllerBase
+    {
+        [HttpGet]
+        [Route("Get")]
+        public string Get(int i) 
+        {
+            if ( i == 500) 
+            {
+                throw new Exception("AOP Index Exception");
+            }
+
+            return $"{typeof(AOPController)}_Get";
+        }
+    }
+
+    也可以在注册的时候直接默认加在所有的controller上  
+    services.AddControllersWithViews( options => {
+        options.Filters.Add<LogActionFilterAttribute>();
+        options.Filters.Add<CustomExceptionFilterAttribute>();
+    }).AddControllersAsServices(); 
+
+
+4. 中间件实现AOP  
+   
+   4.1 创建中间件     
+
+    public class HeaderReadWriteMiddleware  
+      {  
+
+        private readonly RequestDelegate _next;    
+
+        public HeaderReadWriteMiddleware(RequestDelegate next) 
+        {
+            this._next = next;
+        }
+
+        public async Task InvokeAsync(HttpContext context) 
+        {
+            context.Response.OnStarting(async state => {
+                var httpcontext = (HttpContext)state;
+                httpcontext.Response.Headers.Add("middleware","Tom");
+            }, context);
+
+            context.Response.OnCompleted(async state => {
+                var httpcontext = (HttpContext)state;
+                Console.WriteLine($"请求结果：{httpcontext.Response.StatusCode}");
+            }, context);
+
+            await this._next.Invoke(context);
+        }  
+
+
+      }  
+
+      4.2 注册中间件
+
+        app.UseMiddleware<HeaderReadWriteMiddleware>();
+
+   
+
+
 
 # 缓存cache
  Dictionary线程不安全，多线程需要加锁，lock。ConcurrentDictionary是线程安全的，  

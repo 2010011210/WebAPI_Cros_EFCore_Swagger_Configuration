@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IterfaceTest", "..\Iterface
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "..\Service\Service.csproj", "{F99B7CF3-0A7F-4DAE-88C3-9602C803F3D9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonCore", "..\CommonCore\CommonCore.csproj", "{F8346F91-2BC7-4B18-BE76-D85F03318BA0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{F99B7CF3-0A7F-4DAE-88C3-9602C803F3D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F99B7CF3-0A7F-4DAE-88C3-9602C803F3D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F99B7CF3-0A7F-4DAE-88C3-9602C803F3D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8346F91-2BC7-4B18-BE76-D85F03318BA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8346F91-2BC7-4B18-BE76-D85F03318BA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8346F91-2BC7-4B18-BE76-D85F03318BA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8346F91-2BC7-4B18-BE76-D85F03318BA0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

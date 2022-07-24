@@ -20,6 +20,7 @@ namespace WebApiDemo.Controllers
         public string Index() 
         {
             this._iTestServiceA.Show();
+            this._iTestServiceA.Show(24,"Tom");
             return "Ok";
         }
 

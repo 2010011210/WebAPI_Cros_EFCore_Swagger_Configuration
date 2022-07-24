@@ -18,6 +18,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApiDemo.Model;
+using WebApiDemo.Model.AOP;
 
 namespace WebApiDemo
 {
@@ -38,6 +39,11 @@ namespace WebApiDemo
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddControllersWithViews( options => {
+                options.Filters.Add<LogActionFilterAttribute>();
+                options.Filters.Add<CustomExceptionFilterAttribute>();
+            }).AddControllersAsServices(); 
+
             //read configuration file
             //services.AddOptions();
             //services.Configure<Logging>(Configuration.GetSection("logging1"));
@@ -93,6 +99,8 @@ namespace WebApiDemo
             });
 
             app.UseRouting();
+
+            app.UseMiddleware<HeaderReadWriteMiddleware>();
 
             app.UseAuthorization();
 
