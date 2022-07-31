@@ -24,13 +24,11 @@ namespace WebApiDemo.Model.AOP
 
             context.Response.OnCompleted(async state => {
                 var httpcontext = (HttpContext)state;
+                //await httpcontext.Response.WriteAsync($"请求结果：{httpcontext.Response.StatusCode}");
                 Console.WriteLine($"请求结果：{httpcontext.Response.StatusCode}");
             }, context);
 
             await this._next.Invoke(context);
         }
-
-
-
     }
 }

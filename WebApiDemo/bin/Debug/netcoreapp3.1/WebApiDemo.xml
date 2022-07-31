@@ -39,6 +39,17 @@
             address
             </summary>
         </member>
+        <member name="T:WebApiDemo.Model.MiddleWare.MiddleExtension">
+            <summary>
+            中间件扩展类
+            </summary>
+        </member>
+        <member name="M:WebApiDemo.Model.MiddleWare.MiddleExtension.UseCustomeAPIFilter(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            
+            </summary>
+            <param name="app"></param>
+        </member>
         <member name="M:WebApiDemo.Model.TestContext.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions{WebApiDemo.Model.TestContext})">
             <summary>
             constructor for Coding first

@@ -1,4 +1,262 @@
 # WebAPI_Cros_EFCore_Swagger_Configuration
+# 中间件middle的原理和使用
+app.Use(middleware);  
+源码：  
+
+    public class ApplicationBuilder : IApplicationBuilder  
+    {  
+      //public delegate Task RequestDelegate(HttpContext context);  //RequestDelegate委托，传入一个httpcontext对象，返回一个Task
+      private readonly List<Func<RequestDelegate, RequestDelegate>> _components = new();  
+      public IApplicationBuilder Use(Func<RequestDelegate, RequestDelegate> middleware)
+      {
+          _components.Add(middleware);
+          return this;
+      }  
+
+      /// <summary>
+        /// Produces a <see cref="RequestDelegate"/> that executes added middlewares.
+        /// </summary>
+        /// <returns>The <see cref="RequestDelegate"/>.</returns>
+        public RequestDelegate Build()
+        {
+            RequestDelegate app = context =>
+            {
+                // If we reach the end of the pipeline, but we have an endpoint, then something unexpected has happened.
+                // This could happen if user code sets an endpoint, but they forgot to add the UseEndpoint middleware.
+                var endpoint = context.GetEndpoint();
+                var endpointRequestDelegate = endpoint?.RequestDelegate;
+                if (endpointRequestDelegate != null)
+                {
+                    var message =
+                        $"The request reached the end of the pipeline without executing the endpoint: '{endpoint!.DisplayName}'. " +
+                        $"Please register the EndpointMiddleware using '{nameof(IApplicationBuilder)}.UseEndpoints(...)' if using " +
+                        $"routing.";
+                    throw new InvalidOperationException(message);
+                }
+
+                context.Response.StatusCode = StatusCodes.Status404NotFound;
+                return Task.CompletedTask;
+            };
+
+            for (var c = _components.Count - 1; c >= 0; c--)
+            {
+                app = _components[c](app);   //主要是这一行代码，把加入list的RequestDelegate，然后把最后一个委托当作倒数第二个委托中间件的参数，返回一个RequestDelegate委托作为倒数第三个中间件的参数。next.Invoke(httpcontext)
+                //httpcontext作为一连串中间件的参数进行传递
+            }
+
+            return app;
+        }
+    }  
+
+    例如
+    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+      public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+      {
+          Func<RequestDelegate, RequestDelegate> middleware = new Func<RequestDelegate, RequestDelegate>(
+              next =>
+              {
+                  return new RequestDelegate(context => 
+                      { 
+                          return Task.Run(() =>
+                              { 
+                                  context.Response.WriteAsync("This is Tom middleWare test begin");
+                                  next.Invoke(context);
+                                  context.Response.WriteAsync("This is Tom middleWare test end");
+                              }
+                          ); 
+                      }
+                  );
+              }
+          );
+
+          Func<RequestDelegate, RequestDelegate> middleware2 = next => async context =>
+            {
+                await context.Response.WriteAsync("This is Tom middleWare2 test begin \n");
+                await next.Invoke(context);
+                await context.Response.WriteAsync("This is Tom middleWare2 test end \n");
+            };
+
+          app.Use(middleware);
+          app.Use(middleware2);
+          app.Use(next => async context =>
+            {
+                await context.Response.WriteAsync("This is Tom middleWare3 test begin \n");
+                await next.Invoke(context);
+                await context.Response.WriteAsync("This is Tom middleWare3 test end \n");
+            });
+          app.Use(next => async context =>
+            {
+                await context.Response.WriteAsync("This is Tom middleWare4 test begin \n");
+                //await next.Invoke(context);    //最后一个加入的中间件，不要调用传入的委托的invoke方法，因为最后一个是默认的委托，会报错
+                await context.Response.WriteAsync("This is Tom middleWare4 test end \n");
+            });
+
+      }
+
+1.自定义app.Use<Middelware>();     
+
+    app.UseMiddleware<HeaderReadWriteMiddleware>();  
+
+    public class HeaderReadWriteMiddleware
+    {
+        private readonly RequestDelegate _next;
+
+        public HeaderReadWriteMiddleware(RequestDelegate next)   //必须有构造函数，因为会通过反射调用创建实例
+        {
+            this._next = next;
+        }
+
+        public async Task InvokeAsync(HttpContext context)  //必须有InvokeAsync或Invoke方法，通过反射调用这个方法，查看下面源码
+        {
+            context.Response.OnStarting(async state => {
+                var httpcontext = (HttpContext)state;
+                httpcontext.Response.Headers.Add("middleware","Tom");
+            }, context);
+
+            context.Response.OnCompleted(async state => {
+                var httpcontext = (HttpContext)state;
+                //await httpcontext.Response.WriteAsync($"请求结果：{httpcontext.Response.StatusCode}");
+                Console.WriteLine($"请求结果：{httpcontext.Response.StatusCode}");
+            }, context);
+
+            await this._next.Invoke(context);
+        }
+    }
+
+    public static class UseMiddlewareExtensions
+    {
+        internal const string InvokeMethodName = "Invoke";
+        internal const string InvokeAsyncMethodName = "InvokeAsync";
+
+                /// <summary>
+        /// Adds a middleware type to the application's request pipeline.
+        /// </summary>
+        /// <typeparam name="TMiddleware">The middleware type.</typeparam>
+        /// <param name="app">The <see cref="IApplicationBuilder"/> instance.</param>
+        /// <param name="args">The arguments to pass to the middleware type instance's constructor.</param>
+        /// <returns>The <see cref="IApplicationBuilder"/> instance.</returns>
+        public static IApplicationBuilder UseMiddleware<[DynamicallyAccessedMembers(MiddlewareAccessibility)]TMiddleware>(this IApplicationBuilder app, params object?[] args)
+        {
+            return app.UseMiddleware(typeof(TMiddleware), args);    //app.Use<TMiddleware>调用的就是这个方法
+        }
+
+        /// <summary>
+        /// Adds a middleware type to the application's request pipeline.
+        /// </summary>
+        /// <param name="app">The <see cref="IApplicationBuilder"/> instance.</param>
+        /// <param name="middleware">The middleware type.</param>
+        /// <param name="args">The arguments to pass to the middleware type instance's constructor.</param>
+        /// <returns>The <see cref="IApplicationBuilder"/> instance.</returns>
+        public static IApplicationBuilder UseMiddleware(this IApplicationBuilder app, [DynamicallyAccessedMembers(MiddlewareAccessibility)] Type middleware, params object?[] args)
+        {
+            if (typeof(IMiddleware).IsAssignableFrom(middleware))
+            {
+                // IMiddleware doesn't support passing args directly since it's
+                // activated from the container
+                if (args.Length > 0)
+                {
+                    throw new NotSupportedException(Resources.FormatException_UseMiddlewareExplicitArgumentsNotSupported(typeof(IMiddleware)));
+                }
+
+                return UseMiddlewareInterface(app, middleware);
+            }
+
+            var applicationServices = app.ApplicationServices;
+            return app.Use(next =>                                                //最终调用的还是app.Use方法
+            {
+                var methods = middleware.GetMethods(BindingFlags.Instance | BindingFlags.Public);
+                var invokeMethods = methods.Where(m =>
+                    string.Equals(m.Name, InvokeMethodName, StringComparison.Ordinal)        //必须有InvokeAsync或Invoke方法之一，只能有一个
+                    || string.Equals(m.Name, InvokeAsyncMethodName, StringComparison.Ordinal)
+                    ).ToArray();
+
+                if (invokeMethods.Length > 1)
+                {
+                    throw new InvalidOperationException(Resources.FormatException_UseMiddleMutlipleInvokes(InvokeMethodName, InvokeAsyncMethodName));
+                }
+
+                if (invokeMethods.Length == 0)
+                {
+                    throw new InvalidOperationException(Resources.FormatException_UseMiddlewareNoInvokeMethod(InvokeMethodName, InvokeAsyncMethodName, middleware));
+                }
+
+                var methodInfo = invokeMethods[0];
+                if (!typeof(Task).IsAssignableFrom(methodInfo.ReturnType))
+                {
+                    throw new InvalidOperationException(Resources.FormatException_UseMiddlewareNonTaskReturnType(InvokeMethodName, InvokeAsyncMethodName, nameof(Task)));
+                }
+
+                var parameters = methodInfo.GetParameters();
+                if (parameters.Length == 0 || parameters[0].ParameterType != typeof(HttpContext))
+                {
+                    throw new InvalidOperationException(Resources.FormatException_UseMiddlewareNoParameters(InvokeMethodName, InvokeAsyncMethodName, nameof(HttpContext)));
+                }
+
+                var ctorArgs = new object[args.Length + 1];
+                ctorArgs[0] = next;
+                Array.Copy(args, 0, ctorArgs, 1, args.Length);
+                var instance = ActivatorUtilities.CreateInstance(app.ApplicationServices, middleware, ctorArgs);  //反射创建实例
+                if (parameters.Length == 1)
+                {
+                    return (RequestDelegate)methodInfo.CreateDelegate(typeof(RequestDelegate), instance);  //返回一个委托
+                }
+
+                var factory = Compile<object>(methodInfo, parameters);
+
+                return context =>
+                {
+                    var serviceProvider = context.RequestServices ?? applicationServices;
+                    if (serviceProvider == null)
+                    {
+                        throw new InvalidOperationException(Resources.FormatException_UseMiddlewareIServiceProviderNotAvailable(nameof(IServiceProvider)));
+                    }
+
+                    return factory(instance, context, serviceProvider);
+                };
+            });
+        }
+
+    }
+
+2.自定义app.UseCushomeMiddle(middle);  //这个就相当于app.Use(Middle);
+3.自定义app.UseCustomeMiddle();
+
+    public static class MiddleExtension
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="app"></param>
+        public static void UseCustomeAPIFilter(this IApplicationBuilder app) 
+        {
+            Func<RequestDelegate, RequestDelegate> func = next =>
+            {
+                return new RequestDelegate(context =>
+                {
+                    if (context.Request.Path.Value.Contains("api"))
+                    {
+                        return Task.Run(()=> 
+                        {
+                            context.Response.WriteAsync("This is api check, start \n");
+                            context.Response.WriteAsync("This is api check, end \n");
+                        });
+                    }
+                    else
+                    {
+                        return Task.Run(() =>
+                        {
+                            next.Invoke(context);
+                        });
+                    }
+                });
+            };
+
+            app.Use(func);
+        }
+    }
+
+    app.UseCustomeAPIFilter();
+
 # IOC 和 AutoFac
   注册服务  
   services.AddTransient<ITestServiceA, ServiceA>();  
