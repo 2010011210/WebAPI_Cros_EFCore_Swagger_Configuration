@@ -144,6 +144,10 @@ namespace WebApiDemo
             });
 
             app.UseRouting();
+            //StaticPagaMiddleware
+            //app.UseMiddleware<StaticPagaMiddleware>();
+            //app.UseMiddleware<StaticPagaMiddleware>("D:\\WangCong\\data", true);
+            app.UseStaticPage("D:\\WangCong\\data", true);
 
             app.UseMiddleware<HeaderReadWriteMiddleware>();
 

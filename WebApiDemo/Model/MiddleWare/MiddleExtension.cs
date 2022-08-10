@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebApiDemo.Model.AOP;
 
 namespace WebApiDemo.Model.MiddleWare
 {
@@ -41,6 +42,11 @@ namespace WebApiDemo.Model.MiddleWare
             };
 
             app.Use(func);
+        }
+
+        public static IApplicationBuilder UseStaticPage(this IApplicationBuilder app,string directoryPath, bool isDelete) 
+        {
+            return app.UseMiddleware<StaticPagaMiddleware>("D:\\WangCong\\data", true);
         }
     }
 }

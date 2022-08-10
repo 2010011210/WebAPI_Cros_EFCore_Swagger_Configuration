@@ -218,7 +218,7 @@ app.Use(middleware);
 
     }
 
-2.自定义app.UseCushomeMiddle(middle);  //这个就相当于app.Use(Middle);
+2.自定义app.UseCushomeMiddle(middle);  //这个就相当于app.Use(Middle);  
 3.自定义app.UseCustomeMiddle();
 
     public static class MiddleExtension
@@ -255,7 +255,100 @@ app.Use(middleware);
         }
     }
 
-    app.UseCustomeAPIFilter();
+    app.UseCustomeAPIFilter();    
+
+4. app.UseMiddleware<>("保存路径", true);    
+ 
+        public class StaticPagaMiddleware
+        {
+            private readonly RequestDelegate _next;
+            private readonly string directoryPath;
+            private readonly bool deleted;
+
+            public StaticPagaMiddleware(RequestDelegate next, string directoryUrl, bool deleted)
+            {
+                this._next = next;
+                this.directoryPath = directoryUrl;
+                this.deleted = deleted;
+            }
+
+            public async Task InvokeAsync(HttpContext context)
+            {
+                if (context.Request.Path.Value!.StartsWith("/weatherforecast"))
+                {
+                    Console.WriteLine($"path:{context.Request.Path.Value}");
+
+                    #region  context.Response.Body
+
+                    var originalStream = context.Response.Body;
+                    using (var copyStream = new MemoryStream()) 
+                    {
+                        context.Response.Body = copyStream;
+                        await _next(context);
+
+                        copyStream.Position = 0;
+                        var reader = new StreamReader(copyStream);
+                        var content = await reader.ReadToEndAsync();
+                        string url = context.Request.Path.Value;
+
+                        this.SaveHtml(url, content);
+                        copyStream.Position = 0;
+                        await copyStream.CopyToAsync(originalStream);
+                        context.Response.Body = originalStream;
+
+                    }
+
+                    #endregion
+                }
+                else {
+                    await _next(context);
+                }
+            }
+
+            private void SaveHtml(string url, string html) 
+            {
+                try
+                {
+                    if (string.IsNullOrEmpty(html)) 
+                    {
+                        return;
+                    }
+
+                    if (!url.EndsWith("weatherforecast")) 
+                    {
+                        return;
+                    }
+
+                    //string directoryPath = "D:\\WangCong\\data";
+                    if (Directory.Exists(directoryPath) == false) 
+                    {
+                        Directory.CreateDirectory(directoryPath);
+                    }
+
+                    var fullPath = Path.Combine(directoryPath, url.Split("/").Last());
+                    File.WriteAllText(fullPath, html);
+                }
+                catch (Exception e) 
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+
+        }
+
+5. 上面的可以改写为，需要扩展一下方法app.UseStaticPage("保存路径"，true)  //带参数的    
+   
+        /// <summary>
+        /// 中间件扩展类
+        /// </summary>
+        public static class MiddleExtension
+        {
+            public static IApplicationBuilder UseStaticPage(this IApplicationBuilder app,string directoryPath, bool isDelete) 
+            {
+                return app.UseMiddleware<StaticPagaMiddleware>("D:\\WangCong\\data", true);
+            }
+        }
+   
 
 # IOC 和 AutoFac
   注册服务  
