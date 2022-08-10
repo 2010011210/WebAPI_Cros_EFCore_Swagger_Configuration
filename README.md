@@ -257,7 +257,7 @@ app.Use(middleware);
 
     app.UseCustomeAPIFilter();    
 
-4. app.UseMiddleware<>("保存路径", true);    
+4. app.UseMiddleware<StaticPagaMiddleware>("保存路径", true);    
  
         public class StaticPagaMiddleware
         {
